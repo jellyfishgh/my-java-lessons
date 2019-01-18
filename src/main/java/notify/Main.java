@@ -9,9 +9,12 @@ public class Main {
       ExecutorService executor = Executors.newCachedThreadPool();
       ReadService rs = new ReadService();
       Object lock = new Object();
-      executor.submit(new Writer(rs, lock, executor));
-      Thread.sleep(100);
       executor.submit(new Reader(rs, lock));
+      Thread.sleep(100);
+      executor.submit(new Writer(rs, lock, executor));
+      while (!executor.isTerminated()) {
+      }
+      System.out.println("executor terminated");
     } catch (Exception e) {
       e.printStackTrace();
     }

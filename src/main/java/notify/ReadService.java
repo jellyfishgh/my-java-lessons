@@ -5,6 +5,7 @@ import java.io.IOException;
 
 public class ReadService {
   private PipedReader pr;
+  private boolean isLive = true;
 
   public ReadService() {
   }
@@ -18,6 +19,7 @@ public class ReadService {
   }
 
   public void read(String master) {
+    if(!isLive) return;
     try {
       StringBuffer buf = new StringBuffer();
       char[] charArr = new char[5];
@@ -31,5 +33,13 @@ public class ReadService {
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+  
+  public boolean getIsLive() {
+    return isLive;
+  }
+  
+  public void close() {
+    isLive = false;
   }
 }

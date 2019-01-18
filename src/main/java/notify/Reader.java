@@ -12,16 +12,18 @@ public class Reader implements Runnable {
 
   @Override
   public void run() {
-    synchronized (lock) {
-      while (true) {
-        try {
+    try {
+      synchronized (lock) {
+        while (rs.getIsLive()) {
           System.out.println("等待数据...");
           lock.wait();
+          System.out.println("reader resume");
           rs.read(name);
-        } catch (Exception e) {
-          e.printStackTrace();
+          lock.notify();
         }
       }
+    } catch (Exception e) {
+      e.printStackTrace();
     }
   }
 

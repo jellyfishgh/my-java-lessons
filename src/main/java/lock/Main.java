@@ -8,7 +8,7 @@ public class Main {
     Service service = new Service();
     ExecutorService executor = Executors.newCachedThreadPool();
     int i = 0;
-    while (i++ < 3) {
+    while (i++ < 10) {
       executor.submit(new Worker(service, i));
     }
     executor.shutdown();

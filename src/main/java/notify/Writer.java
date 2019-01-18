@@ -18,15 +18,19 @@ public class Writer implements Runnable {
 
   @Override
   public void run() {
-    Scanner scan = new Scanner(System.in);
-    while (true) {
-      String input = scan.nextLine();
-      if ("exit".equals(input)) {
-        executor.shutdown();
-        scan.close();
-        return;
-      }
-      synchronized (lock) {
+    synchronized (lock) {
+      Scanner scan = new Scanner(System.in);
+      while (true) {
+        System.out.println("Enter:");
+        String input = scan.nextLine();
+        if ("exit".equals(input)) {
+          System.out.println("writer exit");
+          rs.close();
+          lock.notify();
+          executor.shutdown();
+          scan.close();
+          return;
+        }
         PipedWriter pw = new PipedWriter();
         PipedReader pr = new PipedReader();
         try {
@@ -35,6 +39,7 @@ public class Writer implements Runnable {
           pw.write(input);
           pw.close();
           lock.notify();
+          lock.wait();
         } catch (Exception e) {
           e.printStackTrace();
         }
