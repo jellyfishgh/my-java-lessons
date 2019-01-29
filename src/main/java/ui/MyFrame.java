@@ -24,4 +24,14 @@ public class MyFrame {
     pane.setBackground(Color.RED);
     frame.setVisible(true);
   }
+
+  public void start() {
+    int i = 0;
+    while (true) {
+      i++;
+      if (i > 5)
+        break;
+    }
+    System.out.println(i);
+  }
 }
