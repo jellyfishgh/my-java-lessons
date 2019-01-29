@@ -1,8 +1,8 @@
-package nio.tcp;
+package nio.udp;
 
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
-import java.nio.channels.SocketChannel;
+import java.nio.channels.DatagramChannel;
 
 public class Client {
   private String addr;
@@ -20,23 +20,13 @@ public class Client {
 
   public void start() {
     try {
-      SocketChannel client = SocketChannel.open();
+      DatagramChannel client = DatagramChannel.open();
       InetSocketAddress remote = new InetSocketAddress(this.addr, this.port);
-      client.connect(remote);
       ByteBuffer wBuf = ByteBuffer.allocate(128);
-      String clientMsg = "exit";
+      String clientMsg = "Hello World";
       wBuf.put(clientMsg.getBytes());
       wBuf.flip();
-      client.write(wBuf);
-      ByteBuffer rBuf = ByteBuffer.allocate(128);
-      client.read(rBuf);
-      rBuf.flip();
-      StringBuilder builder = new StringBuilder();
-      while (rBuf.hasRemaining()) {
-        builder.append((char) rBuf.get());
-      }
-      String serverMsg = builder.toString();
-      System.out.println("Accept From Server: " + serverMsg);
+      client.send(wBuf, remote);
       client.close();
     } catch (Exception e) {
       e.printStackTrace();

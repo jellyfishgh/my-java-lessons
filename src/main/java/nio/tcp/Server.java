@@ -45,7 +45,6 @@ public class Server {
       }
       channel.close();
       server.close();
-
     } catch (Exception e) {
       e.printStackTrace();
     }
