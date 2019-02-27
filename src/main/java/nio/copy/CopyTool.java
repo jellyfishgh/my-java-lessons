@@ -35,7 +35,7 @@ public class CopyTool {
       RandomAccessFile file = new RandomAccessFile(dist, "rw");
       FileChannel channel = file.getChannel();
       ByteBuffer buffer = this.read();
-      MappedByteBuffer buf = channel.map(FileChannel.MapMode.READ_WRITE, 9, len);
+      MappedByteBuffer buf = channel.map(FileChannel.MapMode.READ_WRITE, 0, len);
       long startTime = System.currentTimeMillis();
       for (int i = 0; i < len; i++) {
         buf.put(i, buffer.get(i));

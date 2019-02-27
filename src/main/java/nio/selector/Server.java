@@ -19,7 +19,7 @@ public class Server {
   }
 
   public static void main(String[] args) {
-    Server server = new Server("localhost", 3001);
+    Server server = new Server("localhost", 1234);
     server.init();
   }
 
